@@ -1,7 +1,16 @@
 {
   "name": "koishi-plugin-roulettes",
-  "description": "",
-  "version": "0.0.1",
+  "description": "轮盘抽奖系统插件，支持创建轮盘、轮盘组，进行抽奖操作，查看和管理轮盘数据",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/example/koishi-plugin-roulettes.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/example/koishi-plugin-roulettes/issues"
+  },
+  "homepage": "https://github.com/example/koishi-plugin-roulettes#readme",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -9,13 +18,11 @@
     "dist"
   ],
   "license": "MIT",
-  "scripts": {},
   "keywords": [
     "chatbot",
     "koishi",
     "plugin"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "koishi": "^4.18.7"
   }
