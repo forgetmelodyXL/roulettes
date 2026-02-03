@@ -3,13 +3,13 @@
   "description": "轮盘抽奖系统插件，支持创建轮盘、轮盘组，进行抽奖操作，查看和管理轮盘数据",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/example/koishi-plugin-roulettes.git"
+    "url": "git+https://github.com/forgetmelodyXL/roulettes.git"
   },
-  "author": "",
+  "author": "forgetmelodyXL",
   "bugs": {
-    "url": "https://github.com/example/koishi-plugin-roulettes/issues"
+    "url": "https://github.com/forgetmelodyXL/roulettes/issues"
   },
-  "homepage": "https://github.com/example/koishi-plugin-roulettes#readme",
+  "homepage": "https://github.com/forgetmelodyXL/roulettes#readme",
   "version": "1.0.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
