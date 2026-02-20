@@ -69,12 +69,12 @@ roulette/轮盘列表 2  // 查看第2页
 
 ### 4. 查看轮盘组列表
 
-使用 `roulette/轮盘列表 -g` 指令查看所有轮盘组的列表。
+使用 `roulette/轮盘组列表` 指令查看所有轮盘组的列表。
 
 **示例：**
 ```
-roulette/轮盘列表 -g
-roulette/轮盘列表 -g 2  // 查看第2页
+roulette/轮盘组列表
+roulette/轮盘组列表 2  // 查看第2页
 ```
 
 ### 5. 进行抽奖
@@ -103,11 +103,11 @@ roulette/删除轮盘 1
 
 ### 7. 删除轮盘组
 
-使用 `roulette/删除轮盘 -g` 指令删除指定ID的轮盘组。
+使用 `roulette/删除轮盘组` 指令删除指定ID的轮盘组。
 
 **示例：**
 ```
-roulette/删除轮盘 -g 1
+roulette/删除轮盘组 1
 ```
 
 **权限要求：** 权限等级 3
@@ -123,11 +123,11 @@ roulette/轮盘详情 1
 
 ### 9. 查看轮盘组详情
 
-使用 `roulette/轮盘详情` 指令查看指定轮盘组名称的详细信息。
+使用 `roulette/轮盘组详情` 指令查看指定轮盘组名称的详细信息。
 
 **示例：**
 ```
-roulette/轮盘详情 幸运抽奖
+roulette/轮盘组详情 幸运抽奖
 ```
 
 ## 指令列表
@@ -137,12 +137,13 @@ roulette/轮盘详情 幸运抽奖
 | `roulette/创建轮盘 <items:text>` | 创建轮盘（用逗号分隔选项） | 3 |
 | `roulette/创建轮盘组 <name> <rouletteIds:text>` | 创建轮盘组（轮盘ID用逗号分隔） | 3 |
 | `roulette/轮盘列表 [page:number]` | 查看轮盘列表 | 无 |
-| `roulette/轮盘列表 -g [page:number]` | 查看轮盘组列表 | 无 |
+| `roulette/轮盘组列表 [page:number]` | 查看轮盘组列表 | 无 |
 | `roulette/轮盘抽奖 <target>` | 抽奖（输入轮盘ID或轮盘组名称） | 无 |
 | `roulette/轮盘抽奖 <target> -c <count:number>` | 抽奖（指定次数，1-10次） | 无 |
 | `roulette/删除轮盘 <id:number>` | 删除轮盘 | 3 |
-| `roulette/删除轮盘 -g <id:number>` | 删除轮盘组 | 3 |
-| `roulette/轮盘详情 <target>` | 查看轮盘或轮盘组详情 | 无 |
+| `roulette/删除轮盘组 <id:number>` | 删除轮盘组 | 3 |
+| `roulette/轮盘详情 <id:number>` | 查看轮盘详情 | 无 |
+| `roulette/轮盘组详情 <name>` | 查看轮盘组详情 | 无 |
 
 ## 示例场景
 

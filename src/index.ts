@@ -68,52 +68,54 @@ export function apply(ctx: Context, _config: Config) {
 
   // 查看轮盘指令
   ctx.command('roulette/轮盘列表 [page:number]', '查看轮盘列表')
-    .option('group', '-g 查看轮盘组列表')
-    .action(async ({ session, options }, page = 1) => {
+    .action(async ({ session }, page = 1) => {
       const pageSize = 10
 
-      if (options.group) {
-        // 查看轮盘组列表
-        const groups = await ctx.model.get('roulette_groups', {})
-        const total = groups.length
-        const start = (page - 1) * pageSize
-        const end = start + pageSize
+      // 查看轮盘列表
+      const roulettes = await ctx.model.get('roulettes', {})
+      const total = roulettes.length
+      const start = (page - 1) * pageSize
+      const end = start + pageSize
 
-        const pagedGroups = groups.slice(start, end)
+      const pagedRoulettes = roulettes.slice(start, end)
 
-        if (pagedGroups.length === 0) {
-          return '暂无轮盘组'
-        }
-
-        let message = '轮盘组列表：\n'
-        pagedGroups.forEach(group => {
-          message += `ID: ${group.id} | 名称: ${group.name} | 包含轮盘数: ${group.items.length}\n`
-        })
-
-        message += `\n第${page}页，共${Math.ceil(total / pageSize)}页`
-        return message
-      } else {
-        // 查看轮盘列表
-        const roulettes = await ctx.model.get('roulettes', {})
-        const total = roulettes.length
-        const start = (page - 1) * pageSize
-        const end = start + pageSize
-
-        const pagedRoulettes = roulettes.slice(start, end)
-
-        if (pagedRoulettes.length === 0) {
-          return '暂无轮盘'
-        }
-
-        let message = '轮盘列表：\n'
-        pagedRoulettes.forEach(roulette => {
-          message += `ID: ${roulette.id} | 选项数: ${roulette.items.length}\n`
-          message += `选项: ${roulette.items.join('、')}\n\n`
-        })
-
-        message += `第${page}页，共${Math.ceil(total / pageSize)}页`
-        return message
+      if (pagedRoulettes.length === 0) {
+        return '暂无轮盘'
       }
+
+      let message = '轮盘列表：\n'
+      pagedRoulettes.forEach(roulette => {
+        message += `ID: ${roulette.id} | 选项数: ${roulette.items.length}\n`
+      })
+
+      message += `\n第${page}页，共${Math.ceil(total / pageSize)}页`
+      return message
+    })
+
+  // 轮盘组列表指令
+  ctx.command('roulette/轮盘组列表 [page:number]', '查看轮盘组列表')
+    .action(async ({ session }, page = 1) => {
+      const pageSize = 10
+
+      // 查看轮盘组列表
+      const groups = await ctx.model.get('roulette_groups', {})
+      const total = groups.length
+      const start = (page - 1) * pageSize
+      const end = start + pageSize
+
+      const pagedGroups = groups.slice(start, end)
+
+      if (pagedGroups.length === 0) {
+        return '暂无轮盘组'
+      }
+
+      let message = '轮盘组列表：\n'
+      pagedGroups.forEach(group => {
+        message += `ID: ${group.id} | 名称: ${group.name} | 包含轮盘数: ${group.items.length}\n`
+      })
+
+      message += `\n第${page}页，共${Math.ceil(total / pageSize)}页`
+      return message
     })
 
   // 创建轮盘组指令
@@ -244,64 +246,67 @@ export function apply(ctx: Context, _config: Config) {
 
   // 删除轮盘指令
   ctx.command('roulette/删除轮盘 <id:number>', '删除轮盘', { authority: 3 })
-    .option('group', '-g 删除轮盘组')
-    .action(async ({ session, options }, id) => {
-      if (!id) return '请输入要删除的ID'
+    .action(async ({ session }, id) => {
+      if (!id) return '请输入要删除的轮盘ID'
 
-      if (options.group) {
-        // 删除轮盘组
-        const deleted = await ctx.model.remove('roulette_groups', { id })
-        if (deleted) {
-          return '轮盘组删除成功'
-        } else {
-          return '轮盘组不存在'
-        }
+      const deleted = await ctx.model.remove('roulettes', { id })
+      if (deleted) {
+        return '轮盘删除成功'
       } else {
-        // 删除轮盘
-        const deleted = await ctx.model.remove('roulettes', { id })
-        if (deleted) {
-          return '轮盘删除成功'
-        } else {
-          return '轮盘不存在'
-        }
+        return '轮盘不存在'
       }
     })
 
-  // 查看单个轮盘/轮盘组详情
-  ctx.command('roulette/轮盘详情 <target>', '查看轮盘或轮盘组详情')
-    .action(async ({ session }, target) => {
-      if (!target) return '请输入轮盘ID（数字）或轮盘组名称（中文）'
+  // 删除轮盘组指令
+  ctx.command('roulette/删除轮盘组 <id:number>', '删除轮盘组', { authority: 3 })
+    .action(async ({ session }, id) => {
+      if (!id) return '请输入要删除的轮盘组ID'
 
-      const isNumeric = /^\d+$/.test(target)
-
-      if (isNumeric) {
-        const roulette = await ctx.model.get('roulettes', { id: parseInt(target) })
-        if (!roulette || roulette.length === 0) {
-          return `轮盘 ID ${target} 不存在`
-        }
-
-        const data = roulette[0]
-        return `轮盘 ID: ${data.id}\n选项数: ${data.items.length}\n选项列表：\n${data.items.map((item, index) => `${index + 1}. ${item}`).join('\n')}`
+      const deleted = await ctx.model.remove('roulette_groups', { id })
+      if (deleted) {
+        return '轮盘组删除成功'
       } else {
-        const group = await ctx.model.get('roulette_groups', { name: target })
-        if (!group || group.length === 0) {
-          return `轮盘组 "${target}" 不存在`
-        }
-
-        const data = group[0]
-
-        // 获取所有轮盘的详细信息
-        let roulettesInfo = ''
-        for (const rouletteId of data.items) {
-          const roulette = await ctx.model.get('roulettes', { id: rouletteId })
-          if (roulette && roulette.length > 0) {
-            roulettesInfo += `\n  - 轮盘 ID ${rouletteId}: ${roulette[0].items.length} 个选项`
-          } else {
-            roulettesInfo += `\n  - 轮盘 ID ${rouletteId}: 已删除`
-          }
-        }
-
-        return `轮盘组: ${data.name}\nID: ${data.id}\n包含轮盘数: ${data.items.length}\n轮盘列表：${roulettesInfo}`
+        return '轮盘组不存在'
       }
+    })
+
+  // 查看单个轮盘详情
+  ctx.command('roulette/轮盘详情 <id:number>', '查看轮盘详情')
+    .action(async ({ session }, id) => {
+      if (!id) return '请输入轮盘ID'
+
+      const roulette = await ctx.model.get('roulettes', { id })
+      if (!roulette || roulette.length === 0) {
+        return `轮盘 ID ${id} 不存在`
+      }
+
+      const data = roulette[0]
+      return `轮盘 ID: ${data.id}\n选项数: ${data.items.length}\n选项列表：\n${data.items.map((item, index) => `${index + 1}. ${item}`).join('\n')}`
+    })
+
+  // 查看单个轮盘组详情
+  ctx.command('roulette/轮盘组详情 <name>', '查看轮盘组详情')
+    .action(async ({ session }, name) => {
+      if (!name) return '请输入轮盘组名称'
+
+      const group = await ctx.model.get('roulette_groups', { name })
+      if (!group || group.length === 0) {
+        return `轮盘组 "${name}" 不存在`
+      }
+
+      const data = group[0]
+
+      // 获取所有轮盘的详细信息
+      let roulettesInfo = ''
+      for (const rouletteId of data.items) {
+        const roulette = await ctx.model.get('roulettes', { id: rouletteId })
+        if (roulette && roulette.length > 0) {
+          roulettesInfo += `\n  - 轮盘 ID ${rouletteId}: ${roulette[0].items.length} 个选项`
+        } else {
+          roulettesInfo += `\n  - 轮盘 ID ${rouletteId}: 已删除`
+        }
+      }
+
+      return `轮盘组: ${data.name}\nID: ${data.id}\n包含轮盘数: ${data.items.length}\n轮盘列表：${roulettesInfo}`
     })
 }
