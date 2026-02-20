@@ -285,13 +285,13 @@ export function apply(ctx: Context, _config: Config) {
     })
 
   // 查看单个轮盘组详情
-  ctx.command('roulette/轮盘组详情 <name>', '查看轮盘组详情')
-    .action(async ({ session }, name) => {
-      if (!name) return '请输入轮盘组名称'
+  ctx.command('roulette/轮盘组详情 <id:number>', '查看轮盘组详情')
+    .action(async ({ session }, id) => {
+      if (!id) return '请输入轮盘组ID'
 
-      const group = await ctx.model.get('roulette_groups', { name })
+      const group = await ctx.model.get('roulette_groups', { id })
       if (!group || group.length === 0) {
-        return `轮盘组 "${name}" 不存在`
+        return `轮盘组 ID ${id} 不存在`
       }
 
       const data = group[0]
