@@ -9,8 +9,8 @@
   "bugs": {
     "url": "https://github.com/forgetmelodyXL/roulettes/issues"
   },
-  "homepage": "https://github.com/forgetmelodyXL/roulettes#readme",
-  "version": "1.0.3",
+  "homepage": "https://github.com/forgetmelodyXL/roulettes",
+  "version": "1.0.4",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
